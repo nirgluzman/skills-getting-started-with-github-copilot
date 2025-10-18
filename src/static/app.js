@@ -20,11 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Build participants section (bulleted list) — show friendly text if none
+        const participantsHTML = details.participants && details.participants.length
+          ? `<div class="participants-section" style="margin-top:0.75rem;">
+               <strong>Participants:</strong>
+               <ul class="participants-list" style="list-style: disc; padding-left:1.2rem; margin:0.25rem 0 0; max-height:6rem; overflow:auto; font-size:0.95rem;">
+                 ${details.participants.map(p => `<li style="padding:0.15rem 0;">${p}</li>`).join("")}
+               </ul>
+             </div>`
+          : `<div class="participants-section" style="margin-top:0.75rem; font-style:italic; color:#666;">
+               <strong>Participants:</strong>
+               <div class="no-participants" style="margin-top:0.25rem;">No participants yet</div>
+             </div>`;
+
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsHTML}
         `;
 
         activitiesList.appendChild(activityCard);
